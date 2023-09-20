@@ -25,8 +25,16 @@ namespace StringCalculator
                 return 0;
             }
 
+            var delimiters = _delimiters;
+
+            if (expression.StartsWith("//"))
+            {
+                delimiters = new[] { expression[2] };
+                expression = expression[4..];
+            }
+
             return expression
-                .Split(_delimiters)
+                .Split(delimiters)
                 .Select(int.Parse)
                 .Sum();
         }
