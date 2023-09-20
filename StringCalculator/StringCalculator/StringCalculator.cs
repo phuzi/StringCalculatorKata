@@ -20,21 +20,15 @@ namespace StringCalculator
         /// <returns></returns>
         public static int Add(string expression)
         {
-            var sum = 0;
-
             if (string.IsNullOrEmpty(expression))
             {
-                return sum;
+                return 0;
             }
 
-            var numbers = expression.Split(_delimiter);
-            foreach ( var number in numbers)
-            {
-                var value = int.Parse(number);
-                sum += value;
-            }
-
-            return sum;
+            return expression
+                .Split(_delimiter)
+                .Select(int.Parse)
+                .Sum();
         }
     }
 }
