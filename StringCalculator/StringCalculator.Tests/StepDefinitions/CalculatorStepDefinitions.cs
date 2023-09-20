@@ -1,44 +1,37 @@
+using System;
+using TechTalk.SpecFlow;
+
 namespace StringCalculator.Tests.StepDefinitions
 {
     [Binding]
     public sealed class CalculatorStepDefinitions
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
+        private string _expression = string.Empty;
+        private int? _result = default;
 
-        [Given("the first number is (.*)")]
-        public void GivenTheFirstNumberIs(int number)
+        [TestInitialize]
+        public void Initialize()
         {
-            //TODO: implement arrange (precondition) logic
-            // For storing and retrieving scenario-specific data see https://go.specflow.org/doc-sharingdata
-            // To use the multiline text or the table argument of the scenario,
-            // additional string/Table parameters can be defined on the step definition
-            // method. 
-
-            throw new PendingStepException();
+            _expression = string.Empty;
+            _result = default;
         }
 
-        [Given("the second number is (.*)")]
-        public void GivenTheSecondNumberIs(int number)
+        [Given(@"the entered string is ""([^""]*)""")]
+        public void GivenTheEnteredStringIs(string expression)
         {
-            //TODO: implement arrange (precondition) logic
-
-            throw new PendingStepException();
+            _expression = expression;
         }
 
-        [When("the two numbers are added")]
-        public void WhenTheTwoNumbersAreAdded()
+        [When(@"the string is added")]
+        public void WhenTheStringIsAdded()
         {
-            //TODO: implement act (action) logic
-
-            throw new PendingStepException();
+            _result = StringCalculator.Add(_expression);
         }
 
-        [Then("the result should be (.*)")]
+        [Then(@"the result should be (.*)")]
         public void ThenTheResultShouldBe(int result)
         {
-            //TODO: implement assert (verification) logic
-
-            throw new PendingStepException();
+            Assert.AreEqual(result, _result);
         }
     }
 }
