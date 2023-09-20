@@ -20,3 +20,15 @@ Scenario: Add two numbers
   Given the entered string is "1,2"
   When the string is added
   Then the result should be 3
+
+Scenario Outline: Unknown number of numbers
+    Given the entered string is "<expression>"
+    When the string is added
+    Then the result should be <result>
+
+    Examples: 
+        | expression   | result |
+        | 1,2,3        | 6      |
+        | 1,2,3,4      | 10     |
+        | 1,2,3,4,5    | 15     |
+        | 1,2,3,4,5,6  | 21     |
