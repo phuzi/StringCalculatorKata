@@ -11,6 +11,8 @@ namespace StringCalculator
     /// </summary>
     public class StringCalculator
     {
+        private static readonly char _delimiter = ',';
+
         /// <summary>
         /// Add numbers in a string
         /// </summary>
@@ -18,12 +20,21 @@ namespace StringCalculator
         /// <returns></returns>
         public static int Add(string expression)
         {
+            var sum = 0;
+
             if (string.IsNullOrEmpty(expression))
             {
-                return 0;
+                return sum;
             }
 
-            return expression == "1" ? 1 : 3;
+            var numbers = expression.Split(_delimiter);
+            foreach ( var number in numbers)
+            {
+                var value = int.Parse(number);
+                sum += value;
+            }
+
+            return sum;
         }
     }
 }
