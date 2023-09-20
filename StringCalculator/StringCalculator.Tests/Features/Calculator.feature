@@ -60,3 +60,13 @@ Scenario Outline: Negative numbers not allowed
         | expression | message                      |
         | -1,2       | Negatives not allowed: -1    |
         | 2,-4,3,-5  | Negatives not allowed: -4,-5 |
+
+Scenario Outline: Ignore numbers greater than 1,000
+  Given the entered string is "<expression>"
+  When the string is added
+  Then the result should be <result>
+
+  Examples: 
+      | expression | result |
+      | 1000,2     | 1002   |
+      | 1001,2     | 2      |
