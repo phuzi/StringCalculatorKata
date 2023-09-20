@@ -33,9 +33,18 @@ namespace StringCalculator
                 expression = expression[4..];
             }
 
-            return expression
+            var numbers = expression
                 .Split(delimiters)
-                .Select(int.Parse)
+                .Select(int.Parse);
+
+            var negatives = numbers.Where(n => n < 0);
+
+            if (negatives.Any())
+            {
+                throw new Exception($"Negatives not allowed: {string.Join(',', negatives)}");
+            }
+
+            return numbers
                 .Sum();
         }
     }
