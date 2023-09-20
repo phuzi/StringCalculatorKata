@@ -32,3 +32,8 @@ Scenario Outline: Unknown number of numbers
         | 1,2,3,4      | 10     |
         | 1,2,3,4,5    | 15     |
         | 1,2,3,4,5,6  | 21     |
+
+Scenario: New-line delimiter
+  Given the entered string is "1\n2,3"
+  When the string is added
+  Then the result should be 6

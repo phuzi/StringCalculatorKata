@@ -19,7 +19,7 @@ namespace StringCalculator.Tests.StepDefinitions
         [Given(@"the entered string is ""([^""]*)""")]
         public void GivenTheEnteredStringIs(string expression)
         {
-            _expression = expression;
+            _expression = expression.Replace("\\n", "\n");
         }
 
         [When(@"the string is added")]
