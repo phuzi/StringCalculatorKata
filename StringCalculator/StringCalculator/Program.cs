@@ -4,7 +4,17 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            if (args.Length != 1)
+            {
+                Console.WriteLine("Please specify a single expression to add!\n");
+                return;
+            }
+
+            var expression = args[0] ?? string.Empty;
+
+            var result = StringCalculator.Add(expression);
+
+            Console.WriteLine($"The result is: {result}");
         }
     }
 }
