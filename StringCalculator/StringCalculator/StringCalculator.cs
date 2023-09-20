@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +26,16 @@ namespace StringCalculator
                 return 0;
             }
 
+            var numbers = GetNumbers(expression);
+
+            AssertNoNegatives(numbers);
+
+            return numbers
+                .Sum();
+        }
+
+        private static IEnumerable<int> GetNumbers(string expression)
+        {
             var delimiters = _delimiters;
 
             if (expression.StartsWith("//"))
@@ -33,19 +44,24 @@ namespace StringCalculator
                 expression = expression[4..];
             }
 
-            var numbers = expression
+            return ParseNumbers(expression, delimiters);
+        }
+
+        private static IEnumerable<int> ParseNumbers(string expression, char[] delimiters)
+        {
+            return expression
                 .Split(delimiters)
                 .Select(int.Parse);
+        }
 
+        private static void AssertNoNegatives(IEnumerable<int> numbers)
+        {
             var negatives = numbers.Where(n => n < 0);
 
             if (negatives.Any())
             {
                 throw new Exception($"Negatives not allowed: {string.Join(',', negatives)}");
             }
-
-            return numbers
-                .Sum();
         }
     }
 }
