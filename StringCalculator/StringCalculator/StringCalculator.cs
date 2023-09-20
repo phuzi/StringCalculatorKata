@@ -31,6 +31,7 @@ namespace StringCalculator
             AssertNoNegatives(numbers);
 
             return numbers
+                .Where(n => n <= 1_000)
                 .Sum();
         }
 
