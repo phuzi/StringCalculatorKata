@@ -11,7 +11,7 @@ namespace StringCalculator
     /// </summary>
     public class StringCalculator
     {
-        private static readonly char _delimiter = ',';
+        private static readonly char[] _delimiters = new[] { ',', '\n' };
 
         /// <summary>
         /// Add numbers in a string
@@ -26,7 +26,7 @@ namespace StringCalculator
             }
 
             return expression
-                .Split(_delimiter)
+                .Split(_delimiters)
                 .Select(int.Parse)
                 .Sum();
         }
