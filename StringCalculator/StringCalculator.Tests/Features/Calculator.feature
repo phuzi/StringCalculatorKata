@@ -70,3 +70,14 @@ Scenario Outline: Ignore numbers greater than 1,000
       | expression | result |
       | 1000,2     | 1002   |
       | 1001,2     | 2      |
+
+Scenario Outline: Arbitrary length delimiters
+  Given the entered string is "<expression>"
+  When the string is added
+  Then the result should be <result>
+
+  Examples: 
+      | expression                  | result |
+      | //[%%]\n1%%2%%3             | 6      |
+      | //[\|\|\|]\n1\|\|\|2\|\|\|3 | 6      |
+      | //[----]\n1----2----3       | 6      |
