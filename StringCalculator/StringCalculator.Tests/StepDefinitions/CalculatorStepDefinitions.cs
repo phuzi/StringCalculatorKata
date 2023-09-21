@@ -6,6 +6,7 @@ namespace StringCalculator.Tests.StepDefinitions
     [Binding]
     public sealed class CalculatorStepDefinitions
     {
+        private Exception? _exception;
         private string _expression = string.Empty;
         private int? _result = default;
 
@@ -25,13 +26,32 @@ namespace StringCalculator.Tests.StepDefinitions
         [When(@"the string is added")]
         public void WhenTheStringIsAdded()
         {
-            _result = StringCalculator.Add(_expression);
+            try
+            {
+                _result = StringCalculator.Add(_expression);
+            }
+            catch (Exception ex)
+            {
+                _exception = ex;
+            }
         }
 
         [Then(@"the result should be (.*)")]
         public void ThenTheResultShouldBe(int result)
         {
             Assert.AreEqual(result, _result);
+        }
+
+        [Then(@"an exception should be thrown")]
+        public void ThenAnExceptionShouldBeThrown()
+        {
+            Assert.IsNotNull(_exception);
+        }
+
+        [Then(@"the exception message should be ""([^""]*)""")]
+        public void ThenTheExceptionMessageShouldBe(string message)
+        {
+            Assert.AreEqual(message, _exception?.Message);
         }
     }
 }

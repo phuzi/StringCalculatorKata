@@ -49,3 +49,14 @@ Scenario Outline: Custom delimiter
         | //:\n1:2:3        | 6      |
         | //;\n1;2;3        | 6      |
         | //$\n1$2$3        | 6      |
+
+Scenario Outline: Negative numbers not allowed
+    Given the entered string is "<expression>"
+    When the string is added
+    Then an exception should be thrown
+    And the exception message should be "<message>"
+
+    Examples: 
+        | expression | message                      |
+        | -1,2       | Negatives not allowed: -1    |
+        | 2,-4,3,-5  | Negatives not allowed: -4,-5 |
