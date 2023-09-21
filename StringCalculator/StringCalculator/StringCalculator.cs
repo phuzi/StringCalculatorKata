@@ -17,7 +17,7 @@ namespace StringCalculator
         private const string MultiCaptureGroupName = "multi";
 
         private static readonly string[] _delimiters = new[] { ",", "\n" };
-        private static readonly Regex _customDelimiterRegex = new($@"^//((?<{SingleCaptureGroupName}>.)|\[(?<{MultiCaptureGroupName}>.+)\])\n");
+        private static readonly Regex _customDelimiterRegex = new($@"^//((?<delimiters>.)|(\[(?<delimiters>.)\])+|\[(?<delimiters>.+)\])\n");
 
         /// <summary>
         /// Add numbers in a string
@@ -48,13 +48,10 @@ namespace StringCalculator
 
             if (match.Success)
             {
-                var single = match.Groups[SingleCaptureGroupName];
-                var multi = match.Groups[MultiCaptureGroupName];
-
-                var delimiter = (single!.Captures.FirstOrDefault() ?? multi!.Captures.FirstOrDefault())?.Value;
-                if (delimiter != null) 
+                var matchedDelimiters = match.Groups["delimiters"].Captures.Select(x=> x.Value).ToArray();
+                if (matchedDelimiters.Any()) 
                 {
-                    delimiters = new[] { delimiter };
+                    delimiters = matchedDelimiters;
                     expression = expression[match.Length..];
                 }
             }
