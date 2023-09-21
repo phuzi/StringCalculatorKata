@@ -13,11 +13,8 @@ namespace StringCalculator
     /// </summary>
     public class StringCalculator
     {
-        private const string SingleCaptureGroupName = "single";
-        private const string MultiCaptureGroupName = "multi";
-
-        private static readonly string[] _delimiters = new[] { ",", "\n" };
-        private static readonly Regex _customDelimiterRegex = new($@"^//((?<delimiters>.)|(\[(?<delimiters>.)\])+|\[(?<delimiters>.+)\])\n");
+        private static readonly string[] Delimiters = { ",", "\n" };
+        private static readonly Regex CustomDelimiterRegex = new(@"^//((?<delimiters>.)|(\[(?<delimiters>.)\])+|\[(?<delimiters>.+)\])\n");
 
         /// <summary>
         /// Add numbers in a string
@@ -42,9 +39,9 @@ namespace StringCalculator
 
         private static IEnumerable<int> GetNumbers(string expression)
         {
-            var delimiters = _delimiters;
+            var delimiters = Delimiters;
 
-            var match = _customDelimiterRegex.Match(expression);
+            var match = CustomDelimiterRegex.Match(expression);
 
             if (match.Success)
             {
@@ -68,11 +65,11 @@ namespace StringCalculator
 
         private static void AssertNoNegatives(IEnumerable<int> numbers)
         {
-            var negatives = numbers.Where(n => n < 0);
+            var negatives = string.Join(',', numbers.Where(n => n < 0));
 
-            if (negatives.Any())
+            if (negatives.Length != 0)
             {
-                throw new Exception($"Negatives not allowed: {string.Join(',', negatives)}");
+                throw new Exception($"Negatives not allowed: {negatives}");
             }
         }
     }
