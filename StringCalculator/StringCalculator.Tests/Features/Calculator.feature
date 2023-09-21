@@ -81,3 +81,8 @@ Scenario Outline: Arbitrary length delimiters
       | //[%%]\n1%%2%%3             | 6      |
       | //[\|\|\|]\n1\|\|\|2\|\|\|3 | 6      |
       | //[----]\n1----2----3       | 6      |
+
+Scenario: Multiple single character delimiters
+  Given the entered string is "//[|][%]\n1|2%3"
+  When the string is added
+  Then the result should be 6
