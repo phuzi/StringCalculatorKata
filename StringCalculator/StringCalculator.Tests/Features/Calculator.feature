@@ -86,3 +86,13 @@ Scenario: Multiple single character delimiters
   Given the entered string is "//[|][%]\n1|2%3"
   When the string is added
   Then the result should be 6
+
+Scenario Outline: Multiple arbitrary length delimiters
+  Given the entered string is "<expression>"
+  When the string is added
+  Then the result should be <result>
+
+  Examples: 
+      | expression                   | result |
+      | //[\|][%%][---]\n1%%2---3\|4 | 10     |
+
