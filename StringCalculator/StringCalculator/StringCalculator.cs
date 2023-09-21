@@ -14,7 +14,7 @@ namespace StringCalculator
     public class StringCalculator
     {
         private static readonly string[] Delimiters = { ",", "\n" };
-        private static readonly Regex CustomDelimiterRegex = new(@"^//((?<delimiters>.)|(\[(?<delimiters>.)\])+|\[(?<delimiters>.+)\])\n");
+        private static readonly Regex CustomDelimiterRegex = new(@"^//((?<delimiters>.)|(\[(?<delimiters>.+?)\])+)\n");
 
         /// <summary>
         /// Add numbers in a string
