@@ -37,3 +37,15 @@ Scenario: New-line delimiter
   Given the entered string is "1\n2,3"
   When the string is added
   Then the result should be 6
+
+Scenario Outline: Custom delimiter
+    Given the entered string is "<expression>"
+    When the string is added
+    Then the result should be <result>
+
+    Examples: 
+        | expression        | result |
+        | //\|\n1\|2\|3     | 6      |
+        | //:\n1:2:3        | 6      |
+        | //;\n1;2;3        | 6      |
+        | //$\n1$2$3        | 6      |
