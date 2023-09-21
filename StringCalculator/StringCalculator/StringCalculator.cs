@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace StringCalculator
@@ -12,7 +13,11 @@ namespace StringCalculator
     /// </summary>
     public class StringCalculator
     {
-        private static readonly char[] _delimiters = new[] { ',', '\n' };
+        private const string SingleCaptureGroupName = "single";
+        private const string MultiCaptureGroupName = "multi";
+
+        private static readonly string[] _delimiters = new[] { ",", "\n" };
+        private static readonly Regex _customDelimiterRegex = new($@"^//((?<{SingleCaptureGroupName}>.)|\[(?<{MultiCaptureGroupName}>.+)\])\n");
 
         /// <summary>
         /// Add numbers in a string
@@ -39,19 +44,28 @@ namespace StringCalculator
         {
             var delimiters = _delimiters;
 
-            if (expression.StartsWith("//"))
+            var match = _customDelimiterRegex.Match(expression);
+
+            if (match.Success)
             {
-                delimiters = new[] { expression[2] };
-                expression = expression[4..];
+                var single = match.Groups[SingleCaptureGroupName];
+                var multi = match.Groups[MultiCaptureGroupName];
+
+                var delimiter = (single!.Captures.FirstOrDefault() ?? multi!.Captures.FirstOrDefault())?.Value;
+                if (delimiter != null) 
+                {
+                    delimiters = new[] { delimiter };
+                    expression = expression[match.Length..];
+                }
             }
 
             return ParseNumbers(expression, delimiters);
         }
 
-        private static IEnumerable<int> ParseNumbers(string expression, char[] delimiters)
+        private static IEnumerable<int> ParseNumbers(string expression, string[] delimiters)
         {
             return expression
-                .Split(delimiters)
+                .Split(delimiters, StringSplitOptions.None)
                 .Select(int.Parse);
         }
 
